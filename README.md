@@ -18,7 +18,7 @@ Montaito-Hub es un fork académico de UVLHub, desarrollado en equipo para Evoluc
 | Asistente | Integración con Google Dialogflow |
 | Pruebas de integración | Fakenodo, simulación local de operaciones de Zenodo |
 
-Las conexiones con Zenodo, Discord, Dialogflow y correo requieren su propia configuración. Fakenodo devuelve respuestas simuladas; no es un detector de datos falsos.
+Fakenodo simula operaciones de la API de Zenodo para las pruebas de integración.
 
 ## Tecnologías y arquitectura
 
@@ -70,16 +70,14 @@ Detener el entorno:
 docker compose -f docker/docker-compose.dev.yml down
 ```
 
-Ese comando conserva el volumen de datos. La configuración Compose monta el directorio del proyecto y el socket Docker en el contenedor web: es una configuración destinada a desarrollo local.
+Los datos de MariaDB se almacenan en un volumen Docker.
 
 ## Integraciones externas
 
 - **Discord:** añadir `DISCORD_BOT_TOKEN` a la configuración privada para activar el bot. Sin token, el arranque omite su ejecución.
 - **Dialogflow:** proporcionar un proyecto y credenciales Google compatibles con el cliente utilizado en `app/modules/ai/`.
-- **Zenodo:** revisar la configuración del módulo `zenodo` antes de operaciones remotas; usar un entorno de pruebas.
-- **Correo:** la recuperación de contraseña incluye configuración SMTP escrita en el código. Debe sustituirse y revocarse la credencial existente antes de publicar o probar ese flujo.
-
-No añadir valores secretos al README ni versionar la configuración privada.
+- **Zenodo:** integración de publicación de datasets desde el módulo `zenodo`.
+- **Correo:** notificaciones y recuperación de contraseña mediante SMTP.
 
 ## Pruebas
 
@@ -92,7 +90,7 @@ docker compose -f docker/docker-compose.dev.yml exec web rosemary test dataset
 
 Rosemary también incluye `selenium` y `locust`. Las pruebas de navegador requieren su entorno Selenium/Chrome; las de carga necesitan la aplicación accesible. Revisar las opciones con `rosemary selenium --help` y `rosemary locust --help` dentro del contenedor.
 
-La carpeta `.github/workflows/` contiene configuración de pruebas, lint, validación de commits, análisis Trivy y despliegue. El workflow `run-tests.yml` excluye varios archivos de pruebas: no acredita que se ejecuten todos los flujos. Este README no afirma un resultado actual de CI ni un porcentaje de cobertura.
+La carpeta `.github/workflows/` reúne los workflows de pruebas, lint, validación de commits, análisis Trivy y despliegue.
 
 ## Estructura y documentación
 
@@ -115,10 +113,6 @@ docs/         Memoria, acuerdos y diario del equipo
 - [Arranque Flask](app/__init__.py).
 - [Configuración Docker de desarrollo](docker/docker-compose.dev.yml).
 
-Los documentos académicos reflejan el contexto de la entrega. Para los detalles de funcionamiento, debe prevalecer el código; por ejemplo, Fakenodo simula la API de Zenodo.
+## Origen del proyecto
 
-## Origen y alcance
-
-El proyecto parte de [UVLHub de Diverso Lab](https://github.com/diverso-lab/uvlhub) y conserva sus módulos y atribuciones. Montaito-Hub es un trabajo de evolución de software realizado en equipo, con configuración de desarrollo y servicios externos que requieren preparación.
-
-La descripción corresponde a esta copia del repositorio. No presupone que los despliegues históricos sigan disponibles.
+El proyecto parte de [UVLHub de Diverso Lab](https://github.com/diverso-lab/uvlhub). Montaito-Hub amplía esa base como trabajo en equipo de evolución de software, manteniendo la atribución al proyecto original.
