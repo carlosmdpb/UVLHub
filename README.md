@@ -1,197 +1,124 @@
-<div align="center">
-  <img src="https://www.uvlhub.io/static/img/logos/logo-light.svg" alt="Logo">
-</div>
+# Montaito-Hub — Evolución de UVLHub
 
+Plataforma web para compartir, consultar y analizar modelos de características en formato UVL. Estos modelos describen las opciones y restricciones de una familia de productos software: qué funcionalidades pueden elegirse y cuáles son compatibles.
 
-<div align="center">
-  <h1>MONTAITO-HUB</h1>
-  <h3 style="font-style: italic; font-weight: normal;">
-    A fork of the UVLHub project by DiversoLab: montaito-hub is a repository of feature models in UVL format integrated with Zenodo and flamapy following Open Science principles.
-  </h3>
-  <br><br>
-  <a href="">
-    <img src="https://github.com/diverso-lab/uvlhub/actions/workflows/tests.yml/badge.svg?branch=main" alt="Pytest Testing Suite">
-  </a>
-  <a href="">
-    <img src="https://github.com/diverso-lab/uvlhub/actions/workflows/commits.yml/badge.svg?branch=main" alt="Commits Syntax Checker">
-  </a>
-</div>
+Montaito-Hub es un fork académico de UVLHub, desarrollado en equipo para Evolución y Gestión de la Configuración (EGC), Universidad de Sevilla, curso 2024/25. Amplía la plataforma con valoraciones, perfiles, estadísticas y servicios de integración, junto con herramientas de pruebas y automatización.
 
+## Funcionalidades
 
-##  Table of Contents
+| Área | Qué permite |
+| --- | --- |
+| Datasets y modelos | Subir, consultar, buscar y descargar modelos UVL agrupados en datasets |
+| Análisis | Integración con Flamapy para operaciones sobre modelos de características |
+| Publicación | Integración con Zenodo para compartir recursos de investigación |
+| Comunidad | Valorar datasets y modelos, consultar perfiles y rankings |
+| Dashboard | Consultar estadísticas de actividad |
+| Autenticación | Registro, inicio de sesión y recuperación de contraseña por correo |
+| Discord | Bot de consulta conectado a la plataforma |
+| Asistente | Integración con Google Dialogflow |
+| Pruebas de integración | Fakenodo, simulación local de operaciones de Zenodo |
 
-- [ Overview](#-overview)
-- [ Project Documentation](#-project-documentation)
-- [ Project Structure](#-project-structure)
-- [ Getting Started](#-getting-started)
-  - [ Prerequisites](#-prerequisites)
-  - [ Installation](#-installation)
-  - [ Usage](#-usage)
-  - [ Testing](#-testing)
-- [ Acknowledgments](#-acknowledgments)
+Las conexiones con Zenodo, Discord, Dialogflow y correo requieren su propia configuración. Fakenodo devuelve respuestas simuladas; no es un detector de datos falsos.
 
----
+## Tecnologías y arquitectura
 
-##  Overview
+- Python 3.12 y Flask 3.0.3.
+- SQLAlchemy, Flask-Migrate y MariaDB.
+- Plantillas Jinja y recursos HTML, CSS y JavaScript.
+- Flamapy para modelos de características.
+- Docker Compose y Nginx.
+- CLI propia Rosemary para comandos de desarrollo.
+- Pytest, Selenium, Locust y configuración de GitHub Actions.
 
-Montaito-hub is a fork of the UVLHub project by DiversoLab, created for the Evolution and Configuration Management (Evolución y Gestión de la configuración - EGC) course in the Software Engineering degree at the University of Seville.
+El backend se organiza por módulos en `app/modules/`, con rutas, servicios, repositorios, modelos y pruebas. `core/` contiene las clases y gestores compartidos. La aplicación registra los módulos desde su factoría Flask.
 
-This project serves as a repository for feature models in UVL format, integrated with Zenodo and Flamapy. It includes various modifications made by students of the course, providing hands-on experience in a continuous integration and deployment environment. Students have practiced automating tests and checks using GitHub Actions and collaborating effectively within multiple teams.
+## Ejecutar con Docker
 
-
-
----
-
-##  Project Documentation
-
-Montaito-hub is a proyect made by single team: montaito-hub.
-You can find all our documentation on the ``/docs`` folder in our common proyect. 
-
-There you may find our commmon working policy checking ``/docs/Acta fundacional.md`` and our specific group documentation in our respective group folder.
-
-
-
-
----
-
-##  Project Structure
+Requisitos: Git, Docker y Docker Compose con contenedores Linux. El entorno de desarrollo expone Nginx en el puerto 80 y MariaDB en el 3306; deben estar disponibles.
 
 ```sh
-└── montaito-hub.git/
-    ├── .github/
-    │   ├── workflows/
-    │   └── ...
-    ├── README.md
-    ├── app/
-    │   ├── modules/
-    │   ├── static/
-    │   └── templates/
-    ├── core/
-    │   ├── ...
-    ├── docker/
-    │   ├── ...
-    ├── docs/
-    │   ├── Acta fundacional.md
-    │   ├── ...
-    │   └── ...
-    ├── migrations/
-    │   ├── ...
-    ├── requirements.txt
-    ├── rosemary/
-    │   ├── commands/
-    │   └── templates/
-    ├── scripts/
-    │   ├── ...
-    └── vagrant/
-        ├── ...
+git clone https://github.com/carlosmdpb/UVLHub.git
+cd UVLHub
 ```
 
-##  Getting Started
+Crear la configuración:
 
-###  Prerequisites
-
-Before getting started with montaito-hub.git, ensure your runtime environment meets the following requirements:
-
-- **Programming Language:** Python
-- **Package Manager:** Pip / Pip3
-
-
-###  Installation
-
-Install montaito-hub.git using one of the following methods:
-
-**Deploy on Docker:**
-1. Clone the montaito-hub.git repository:
-```sh
-❯ git clone https://github.com/Lidiajim/montaito-hub.git
+```powershell
+# Windows / PowerShell
+Copy-Item .env.docker.example .env
 ```
-
-2. Navigate to the project directory:
-```sh
-❯ cd montaito-hub
-```
-
-3. Create a local environment:
-```sh
-❯ python -m venv .evn
-❯ cp .env.docker.example .env
-❯ source .env/bin/activate
-❯ echo 'DISCORD_BOT_TOKEN="your_token_here"' >> .env
-```
-
-4. Install the project dependencies:
-
-**Using `pip`** &nbsp; [<img align="center" src="https://img.shields.io/badge/Pip-3776AB.svg?style={badge_style}&logo=pypi&logoColor=white" />](https://pypi.org/project/pip/)
 
 ```sh
-❯ pip install -r requirements.txt
-❯ deactivate
+# Linux / macOS
+cp .env.docker.example .env
 ```
 
-5. Deploy in develop:
-```sh
-❯ docker compose -f docker/docker-compose.dev.yml up -d 
-```
-
-**Deploy locally:**
-
-For more detailed information check https://docs.uvlhub.io/installation/manual_installation.
-
-
-###  Usage
-Run montaito-hub.git using the following command:
-**Using `pip`** &nbsp; [<img align="center" src="https://img.shields.io/badge/Pip-3776AB.svg?style={badge_style}&logo=pypi&logoColor=white" />](https://pypi.org/project/pip/)
+Iniciar los servicios desde la raíz:
 
 ```sh
-❯ python {entrypoint}
+docker compose -f docker/docker-compose.dev.yml up --build -d
+docker compose -f docker/docker-compose.dev.yml logs -f web
 ```
 
+Acceso: [http://localhost](http://localhost). Nginx dirige las peticiones al servicio Flask del puerto interno 5000.
 
-###  Testing
+El entrypoint espera a MariaDB, crea la base de pruebas y aplica las migraciones; si la base está vacía, carga los seeders. La imagen instala las dependencias y Rosemary, por lo que este recorrido no necesita un entorno virtual Python en el equipo anfitrión.
 
-**Unit tests**
-Run the unit test suite using the following command:
+Detener el entorno:
+
 ```sh
-❯ rosemary test
+docker compose -f docker/docker-compose.dev.yml down
 ```
 
-If you want to run specific test modules:
+Ese comando conserva el volumen de datos. La configuración Compose monta el directorio del proyecto y el socket Docker en el contenedor web: es una configuración destinada a desarrollo local.
+
+## Integraciones externas
+
+- **Discord:** añadir `DISCORD_BOT_TOKEN` a la configuración privada para activar el bot. Sin token, el arranque omite su ejecución.
+- **Dialogflow:** proporcionar un proyecto y credenciales Google compatibles con el cliente utilizado en `app/modules/ai/`.
+- **Zenodo:** revisar la configuración del módulo `zenodo` antes de operaciones remotas; usar un entorno de pruebas.
+- **Correo:** la recuperación de contraseña incluye configuración SMTP escrita en el código. Debe sustituirse y revocarse la credencial existente antes de publicar o probar ese flujo.
+
+No añadir valores secretos al README ni versionar la configuración privada.
+
+## Pruebas
+
+Con los servicios iniciados, desde la raíz:
+
 ```sh
-❯ rosemary test <module name>
+docker compose -f docker/docker-compose.dev.yml exec web rosemary test
+docker compose -f docker/docker-compose.dev.yml exec web rosemary test dataset
 ```
 
-**Frontend tests using Selenium**
-Run the unit test suite using the following command:
-```sh
-❯ rosemary selenium
+Rosemary también incluye `selenium` y `locust`. Las pruebas de navegador requieren su entorno Selenium/Chrome; las de carga necesitan la aplicación accesible. Revisar las opciones con `rosemary selenium --help` y `rosemary locust --help` dentro del contenedor.
+
+La carpeta `.github/workflows/` contiene configuración de pruebas, lint, validación de commits, análisis Trivy y despliegue. El workflow `run-tests.yml` excluye varios archivos de pruebas: no acredita que se ejecuten todos los flujos. Este README no afirma un resultado actual de CI ni un porcentaje de cobertura.
+
+## Estructura y documentación
+
+```text
+app/modules/  Funcionalidades y pruebas
+app/templates/ Plantillas compartidas
+app/static/   Recursos del frontend
+core/         Infraestructura común
+rosemary/     CLI de desarrollo
+docker/       Imágenes, Compose, Nginx y entrypoints
+migrations/   Versiones del esquema
+docs/         Memoria, acuerdos y diario del equipo
+.github/      Automatización
 ```
 
-If you want to run specific test modules:
-```sh
-❯ rosemary selenium <module name>
-```
+- [Memoria del proyecto](docs/Project_report.md).
+- [Organización del equipo](docs/Articles_of_incorporation.md).
+- [Diario del equipo](docs/Team_diary.md).
+- [Integrantes y contexto académico](docs/Involvement.md).
+- [Arranque Flask](app/__init__.py).
+- [Configuración Docker de desarrollo](docker/docker-compose.dev.yml).
 
-**Load tests using Locust**
-Run the unit test suite using the following command:
-```sh
-❯ rosemary locust
-```
+Los documentos académicos reflejan el contexto de la entrega. Para los detalles de funcionamiento, debe prevalecer el código; por ejemplo, Fakenodo simula la API de Zenodo.
 
-If you want to run specific test modules:
-```sh
-❯ rosemary locust <module name>
-```
+## Origen y alcance
 
----
+El proyecto parte de [UVLHub de Diverso Lab](https://github.com/diverso-lab/uvlhub) y conserva sus módulos y atribuciones. Montaito-Hub es un trabajo de evolución de software realizado en equipo, con configuración de desarrollo y servicios externos que requieren preparación.
 
-
-##  Acknowledgments
-
-In this section you can find all the contributors of each team:
-
-- **Óscar Menéndez Márquez** - oscmenmar@alum.us.es
-- **Jun Yao** - junyao@alum.us.es
-- **Lidia Jiménez Soriano** - lidjimsor@alum.us.es
-- **Álvaro Ruiz Gutiérrez** - alvruigut@alum.us.es
-- **Carlos Martín de Prado Barragán** - carmarbar9@alum.us.es
-- **Francisco Capote García** - fracapgar@alum.us.es
+La descripción corresponde a esta copia del repositorio. No presupone que los despliegues históricos sigan disponibles.
