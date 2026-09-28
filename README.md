@@ -2,6 +2,13 @@
 
 Plataforma web para compartir, consultar y analizar modelos de características en formato UVL. Estos modelos describen las opciones y restricciones de una familia de productos software: qué funcionalidades pueden elegirse y cuáles son compatibles.
 
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-3.0.3-555555?logo=flask&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-Database-003545?logo=mariadb&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containers-2496ED?logo=docker&logoColor=white)
+![Flamapy](https://img.shields.io/badge/Flamapy-UVL-4A6FA5)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?logo=githubactions&logoColor=white)
+
 Montaito-Hub es un fork académico de UVLHub, desarrollado en equipo para Evolución y Gestión de la Configuración (EGC), Universidad de Sevilla, curso 2024/25. Amplía la plataforma con valoraciones, perfiles, estadísticas y servicios de integración, junto con herramientas de pruebas y automatización.
 
 ## Funcionalidades
